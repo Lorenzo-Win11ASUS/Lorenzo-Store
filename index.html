@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lorenzo Store</title>
+  <style>
+    :root{
+      --bg:#000;
+      --text:#00ff99;
+      --accent:#00ffd5;
+      --muted:#0a3;
+      --card:#07110b;
+    }
+    html,body{height:100%; margin:0; background:var(--bg); color:var(--text); font-family: "Courier New", monospace;}
+    .wrap{max-width:980px; margin:40px auto; padding:24px;}
+    h1{color:var(--accent); margin:0 0 14px 0; text-shadow:0 0 8px rgba(0,255,213,0.12);}
+    p.lead{color:#00ffcc; margin:8px 0 20px 0;}
+    .panel{background:linear-gradient(180deg,#070b06 0,#06110a 100%); border:1px solid #033; padding:18px; border-radius:8px;}
+    .files{margin-top:12px;}
+    .files ul{list-style:none; padding:0; margin:0;}
+    .files li{padding:12px 14px; border:1px solid #034; margin-bottom:8px; background:#07110b; display:flex; justify-content:space-between; align-items:center; border-radius:6px;}
+    .files a{color:var(--text); text-decoration:none; font-weight:600;}
+    .muted{color:#0a3; font-size:13px;}
+    .hint{margin-top:12px; color:#00ffcc; font-size:13px;}
+    .empty{opacity:.6; font-style:italic;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Lorenzo Store</h1>
+
+    <div class="panel">
+      <div class="files" id="filesList">
+        <!-- Exemplos de links; substitua pelos arquivos reais na pasta "files/" -->
+        <ul>
+          <li>
+            <span>My Drive Icon</span>
+            <a href="./files/DI.zip" download>Baixar</a>
+          </li>
+          <li>
+            <span>Ultralight MIDIPlayer v1.7.2</span>
+            <a href="./files/Ultralight MIDIPlayer development.zip" download>Baixar</a>
+          </li>
+          <li>
+            <span>Relógio do Lorenzo</span>
+            <a href="./files/Relógio.7z" download>Baixar</a>
+          </li>
+        </ul>
+      </div>
+      <div class="hint empty" id="noFilesMessage" style="display:none;">Nenhum arquivo encontrado na pasta "files". Coloque arquivos na pasta e atualize a página.</div>
+    </div>
+  </div>
+
+  <script>
+    // script opcional: tenta detectar se os links existem (checagem simples por fetch, ignora erros CORS locais)
+    (function(){
+      const items = document.querySelectorAll('.files a');
+      let anyVisible = false;
+      function checkHref(a){
+        fetch(a.href, {method:'HEAD'}).then(r=>{
+          if(r.ok) { a.style.opacity = '1'; anyVisible = true; }
+          else { a.parentElement.classList.add('empty'); a.style.opacity = '.5'; }
+        }).catch(()=>{ /* se local file:// pode falhar — deixar como exemplo */ });
+      }
+      items.forEach(checkHref);
+    })();
+  </script>
+</body>
+</html>
